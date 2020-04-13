@@ -1,5 +1,4 @@
 import mill._
-import mill.scalajslib.ScalaJSModule
 import mill.scalalib._
 
 object Version {
@@ -12,6 +11,7 @@ object Version {
 
   val twitter4s = "6.2"
   val zio = "1.0.0-RC18-2"
+  val zioConfig = "1.0.0-RC16"
 }
 
 object Libs {
@@ -24,6 +24,8 @@ object Libs {
   val twitter4s = ivy"com.danielasfregola::twitter4s:${Version.twitter4s}"
 
   val zio = ivy"dev.zio::zio:${Version.zio}"
+  val zioConfig = ivy"dev.zio::zio-config:${Version.zioConfig}"
+  val zioConfigTypesafe = ivy"dev.zio::zio-config-typesafe:${Version.zioConfig}"
 
   val zioTest = ivy"dev.zio::zio-test:${Version.zio}"
   val zioTestSbt = ivy"dev.zio::zio-test-sbt:${Version.zio}"
@@ -69,9 +71,9 @@ trait MyModuleWithTests extends MyModule {
 
 }
 
-object server extends MyModule {
+object server extends MyModuleWithTests {
 
-  override def mainClass = Some("pme123.camunda.boot.hello.Application")
+  override def mainClass = Some("pme123.camunda.boot.Application")
 
   override def ivyDeps = {
     Agg(
@@ -79,10 +81,12 @@ object server extends MyModule {
       Libs.springJdbc,
       Libs.camunda,
       Libs.h2,
-     // Libs.postgres,
+      // Libs.postgres,
 
       Libs.twitter4s,
-      Libs.zio
+      Libs.zio,
+      Libs.zioConfig,
+      Libs.zioConfigTypesafe
     )
   }
 }

@@ -1,4 +1,4 @@
-package pme123.camunda.boot
+package pme123.zio.camunda
 
 import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication
 import org.springframework.boot.SpringApplication

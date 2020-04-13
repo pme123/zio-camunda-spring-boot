@@ -1,4 +1,4 @@
-package pme123.camunda.boot.delegate
+package pme123.zio.camunda.delegate
 
 import org.camunda.bpm.engine.delegate.{DelegateExecution, JavaDelegate}
 
