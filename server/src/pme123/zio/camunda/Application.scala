@@ -26,6 +26,9 @@ object Application extends zio.App {
       _ <- managedSpringApp(args).useForever
     } yield ()
 
+  /**
+    * create SpringApplication as a ZManaged Resource.
+    */
   private def managedSpringApp(args: List[String]): ZManaged[Console, Throwable, ConfigurableApplicationContext] =
     ZManaged.make(
       console.putStrLn("Starting Spring Container...") *>
@@ -41,6 +44,5 @@ object Application extends zio.App {
           console.putStrLn(s"Problem shutting down the Spring Container.\n${ex.getMessage}")
         )
     )
-
 
 }

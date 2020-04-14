@@ -13,18 +13,19 @@ import zio.console.Console
 /**
   * Publish content on Twitter. It really goes live! Watch out http://twitter.com/#!/camunda_demo for your postings.
   */
-@Service("tweetAdapter")
 class TweetContentDelegate
   extends CamundaDelegate {
 
   def execute(execution: DelegateExecution): Unit =
     unsafeRun(
-      {
-        val content = execution.stringVar("content")
-        if ("network error" == content)
-          ZIO.fail(new UnknownHostException("demo twitter account"))
-        twitterApi.createTweet(content)
-        }
+      (for {
+        tweet <- execution.stringVar("content")
+        _ <-
+          if ("network error" == tweet)
+            ZIO.fail(new UnknownHostException("demo twitter account"))
+          else
+            twitterApi.createTweet(tweet)
+      } yield ())
         .mapError {
           case ex: TwitterException if ex.code.intValue == 187 =>
             new BpmnError("duplicateMessage")

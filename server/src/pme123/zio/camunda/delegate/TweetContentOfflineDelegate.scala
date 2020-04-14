@@ -1,44 +1,25 @@
 package pme123.zio.camunda.delegate
 
-import java.net.UnknownHostException
-
-import org.camunda.bpm.engine.delegate.{BpmnError, DelegateExecution, JavaDelegate}
-import zio.Runtime.default.unsafeRun
-import zio.{ZIO, console}
-import com.danielasfregola.twitter4s.TwitterRestClient
-import com.danielasfregola.twitter4s.TwitterStreamingClient
-import com.danielasfregola.twitter4s.entities.{AccessToken, ConsumerToken}
-import com.danielasfregola.twitter4s.exceptions.TwitterException
+import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.springframework.stereotype.Service
-
-import scala.concurrent.Future
+import pme123.zio.camunda.services.twitterApi
+import zio.Runtime.default.unsafeRun
+import zio.console.Console
 
 /**
   * Use this delegate instead of TweetContentDelegate, if you don't want to access Twitter, but just to do some sysout.
   */
+@Service("tweetAdapter")
 class TweetContentOfflineDelegate
   extends CamundaDelegate {
 
   def execute(execution: DelegateExecution): Unit =
     unsafeRun(
       (for {
-        tweet <- ZIO.succeed {
-          val content = execution.stringVar("content")
-          s"""|
-              |
-              |${"#" * 20} 
-              | 
-              |NOW WE WOULD TWEET: 
-              |'$content'
-              |
-              |
-              |${"#" * 20} 
-              |
-              |
-              |""".stripMargin
-        }
-        _ <- console.putStrLn(tweet)
+        tweet <- execution.stringVar("content")
+        _ <- twitterApi.createTweet(tweet)
       } yield ())
+        .provideCustomLayer(Console.live >>> twitterApi.offline)
     )
 
 }

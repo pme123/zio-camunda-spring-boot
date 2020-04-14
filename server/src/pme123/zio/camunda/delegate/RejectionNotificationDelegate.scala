@@ -17,9 +17,9 @@ class RejectionNotificationDelegate
   def execute(execution: DelegateExecution): Unit =
     unsafeRun(
       for {
-        text <- ZIO.succeed {
-          val content = execution.stringVar("content")
-          val comments = execution.stringVar("comments")
+        content <- execution.stringVar("content")
+        comments <- execution.stringVar("comments")
+        text <- ZIO.succeed (
           s"""Hi!
              |
              |Unfortunately your tweet has been rejected.
@@ -29,8 +29,7 @@ class RejectionNotificationDelegate
              |Comment: $comments
              |
              |Sorry, please try with better content the next time :-)
-             |""".stripMargin
-        }
+             |""".stripMargin)
         _ <- console.putStrLn(text)
       } yield ()
     )

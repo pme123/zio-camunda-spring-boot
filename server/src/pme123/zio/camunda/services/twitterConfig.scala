@@ -21,24 +21,29 @@ object twitterConfig {
 
   case class Token(key: String, value: String)
 
-  private val tokenConfig =
-    (string("key") |@|
-      string("value")
-      ) (Token.apply, Token.unapply)
+  /**
+    * Reads the Twitter Authentication from the `twitter-auth.conf`.
+    */
+  lazy val live: TaskLayer[TwitterConfig] = {
 
-  private val twitterAuthConfig: ConfigDescriptor[String, String, TwitterAuth] =
-    (nested("consumerToken")(tokenConfig) |@|
-      nested("accessToken")(tokenConfig)
-      ) (TwitterAuth.apply, TwitterAuth.unapply)
+    val tokenConfig =
+      (string("key") |@|
+        string("value")
+        ) (Token.apply, Token.unapply)
 
-  lazy val sourceLayer: TaskLayer[Config[TwitterAuth]] = TypesafeConfig.fromHoconFile(new File("twitter-auth.conf"), twitterAuthConfig)
+    val twitterAuthConfig: ConfigDescriptor[String, String, TwitterAuth] =
+      (nested("consumerToken")(tokenConfig) |@|
+        nested("accessToken")(tokenConfig)
+        ) (TwitterAuth.apply, TwitterAuth.unapply)
 
-  lazy val live: TaskLayer[TwitterConfig] =
+    lazy val sourceLayer: TaskLayer[Config[TwitterAuth]] = TypesafeConfig.fromHoconFile(new File("twitter-auth.conf"), twitterAuthConfig)
+
     ZLayer.succeed(
       new Service {
         def auth(): Task[TwitterAuth] =
           config[TwitterAuth]
             .provideLayer(sourceLayer)
       })
+  }
 
 }
