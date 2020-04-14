@@ -5,10 +5,13 @@ import zio.{IO, ZIO}
 
 trait CamundaDelegate extends JavaDelegate {
 
-  implicit  class CamundaExecution(execution: DelegateExecution) {
-    
+  implicit class CamundaExecution(execution: DelegateExecution) {
+
     def stringVar(key: String): IO[Unit, String] =
-      ZIO.fromOption(Option(execution.getVariable(key)).map(_.toString))
+      asString(execution.getVariable(key))
   }
+
+  private def asString(variable: AnyRef): IO[Unit, String] =
+    ZIO.fromOption(Option(variable).map(_.toString))
 
 }

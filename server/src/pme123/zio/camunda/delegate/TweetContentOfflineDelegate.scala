@@ -21,5 +21,4 @@ class TweetContentOfflineDelegate
       } yield ())
         .provideCustomLayer(Console.live >>> twitterApi.offline)
     )
-
 }

@@ -4,7 +4,6 @@ import java.net.UnknownHostException
 
 import com.danielasfregola.twitter4s.exceptions.TwitterException
 import org.camunda.bpm.engine.delegate.{BpmnError, DelegateExecution}
-import org.springframework.stereotype.Service
 import pme123.zio.camunda.services.{twitterApi, twitterConfig}
 import zio.Runtime.default.unsafeRun
 import zio.ZIO

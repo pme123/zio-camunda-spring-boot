@@ -19,17 +19,17 @@ class RejectionNotificationDelegate
       for {
         content <- execution.stringVar("content")
         comments <- execution.stringVar("comments")
-        text <- ZIO.succeed (
-          s"""Hi!
-             |
-             |Unfortunately your tweet has been rejected.
-             |
-             |Original content: $content
-             |
-             |Comment: $comments
-             |
-             |Sorry, please try with better content the next time :-)
-             |""".stripMargin)
+        text =
+        s"""Hi!
+           |
+           |Unfortunately your tweet has been rejected.
+           |
+           |Original content: $content
+           |
+           |Comment: $comments
+           |
+           |Sorry, please try with better content the next time :-)
+           |""".stripMargin
         _ <- console.putStrLn(text)
       } yield ()
     )
