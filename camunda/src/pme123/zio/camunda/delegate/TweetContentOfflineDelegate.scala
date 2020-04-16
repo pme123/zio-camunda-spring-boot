@@ -2,7 +2,7 @@ package pme123.zio.camunda.delegate
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.springframework.stereotype.Service
-import pme123.zio.camunda.services.twitterApi
+import pme123.zio.camunda.twitter.twitterApi
 import zio.Runtime.default.unsafeRun
 import zio.console.Console
 

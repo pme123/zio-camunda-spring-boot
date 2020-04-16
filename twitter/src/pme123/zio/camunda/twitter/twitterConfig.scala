@@ -1,4 +1,4 @@
-package pme123.zio.camunda.services
+package pme123.zio.camunda.twitter
 
 import java.io.File
 

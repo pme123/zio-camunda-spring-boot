@@ -5,7 +5,7 @@ object Version {
   val scalaVersion = "2.13.1"
 
   val spring = "2.2.4.RELEASE"
-  val camunda = "3.3.7"
+  val camundaSpringBoot = "3.3.7"
   val h2 = "1.4.200"
   val postgres = "42.2.8"
 
@@ -17,7 +17,7 @@ object Version {
 object Libs {
   val spring = ivy"org.springframework.boot:spring-boot-starter-web:${Version.spring}"
   val springJdbc = ivy"org.springframework.boot:spring-boot-starter-jdbc:${Version.spring}"
-  val camunda = ivy"org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:${Version.camunda}"
+  val camunda = ivy"org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:${Version.camundaSpringBoot}"
   val h2 = ivy"com.h2database:h2:${Version.h2}"
   val postgres = ivy"org.postgresql:postgresql:${Version.postgres}"
 
@@ -71,7 +71,23 @@ trait MyModuleWithTests extends MyModule {
 
 }
 
-object server extends MyModuleWithTests {
+object twitter extends MyModuleWithTests {
+
+  override def mainClass = Some("pme123.camunda.boot.Application")
+
+  override def ivyDeps = {
+    Agg(
+      Libs.twitter4s,
+      Libs.zio,
+      Libs.zioConfig,
+      Libs.zioConfigTypesafe
+    )
+  }
+}
+
+object camunda extends MyModuleWithTests {
+
+  override def moduleDeps = Seq(twitter)
 
   override def mainClass = Some("pme123.camunda.boot.Application")
 
@@ -80,13 +96,8 @@ object server extends MyModuleWithTests {
       Libs.spring,
       Libs.springJdbc,
       Libs.camunda,
-      Libs.h2,
+      Libs.h2
       // Libs.postgres,
-
-      Libs.twitter4s,
-      Libs.zio,
-      Libs.zioConfig,
-      Libs.zioConfigTypesafe
     )
   }
 }

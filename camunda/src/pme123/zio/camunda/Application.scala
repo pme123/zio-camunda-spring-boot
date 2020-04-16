@@ -13,18 +13,13 @@ class Application
 
 object Application extends zio.App {
 
-  override def run(args: List[String]): ZIO[zio.ZEnv, Nothing, Int] =
-    program(args)
+  def run(args: List[String]): ZIO[zio.ZEnv, Nothing, Int] =
+    managedSpringApp(args).useForever
       .provideLayer(Console.live)
       .fold(
         _ => 1,
         _ => 0
       )
-
-  private def program(args: List[String]) =
-    for {
-      _ <- managedSpringApp(args).useForever
-    } yield ()
 
   /**
     * create SpringApplication as a ZManaged Resource.

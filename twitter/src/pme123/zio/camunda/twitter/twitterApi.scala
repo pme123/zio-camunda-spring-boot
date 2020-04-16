@@ -1,8 +1,8 @@
-package pme123.zio.camunda.services
+package pme123.zio.camunda.twitter
 
 import com.danielasfregola.twitter4s.TwitterRestClient
 import com.danielasfregola.twitter4s.entities.{AccessToken, ConsumerToken}
-import pme123.zio.camunda.services.twitterConfig.TwitterConfig
+import pme123.zio.camunda.twitter.twitterConfig.TwitterConfig
 import zio._
 import zio.console.Console
 
