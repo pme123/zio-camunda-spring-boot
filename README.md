@@ -16,6 +16,8 @@ Here are the main ingredients:
 For the example it uses also a Scala implementation of the Twitter API:
 [twitter4s](https://github.com/DanielaSfregola/twitter4s)
 
+And [zio-config](https://zio.github.io/zio-config/) for the Twitter Authorization.
+
 # From the original README
 This example demonstrates how you can use BPM process and Tweeter API to build simple Twitter client. 
 It uses `camunda-bpm-spring-boot-starter-webapp` and thus embed Tomcat as a web container.
@@ -113,10 +115,10 @@ Spring and ZIO bring their own ways of **DI**.
   In Camunda the Service Tasks can be referred by a Delegate Expression, e.g. `#{tweetAdapter}`.
   Spring looks now for a `JavaDelegate` that is annotated like:
   
-  ```scala`
+  ```scala
   @Service("tweetAdapter")
   class TweetContentOfflineDelegate`
-  ``
+  ```
 
 ### [ZIO ZLayers](https://zio.dev/docs/howto/howto_use_layers)
 * Compile Time DI.
