@@ -18,6 +18,12 @@ For the example it uses also a Scala implementation of the Twitter API:
 
 And [zio-config](https://zio.github.io/zio-config/) for the Twitter Authorization.
 
+# Run it
+> If you have installed Mill.
+
+Type in your terminal:
+
+```mill camunda.run```
 # From the original README
 This example demonstrates how you can use BPM process and Tweeter API to build simple Twitter client. 
 It uses `camunda-bpm-spring-boot-starter-webapp` and thus embed Tomcat as a web container.

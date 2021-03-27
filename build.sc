@@ -73,7 +73,7 @@ trait MyModuleWithTests extends MyModule {
 
 object twitter extends MyModuleWithTests {
 
-  override def mainClass = Some("pme123.camunda.boot.Application")
+  override def mainClass = Some("pme123.zio.camunda.Application")
 
   override def ivyDeps = {
     Agg(
@@ -89,7 +89,7 @@ object camunda extends MyModuleWithTests {
 
   override def moduleDeps = Seq(twitter)
 
-  override def mainClass = Some("pme123.camunda.boot.Application")
+  override def mainClass = Some("pme123.zio.camunda.Application")
 
   override def ivyDeps = {
     Agg(
